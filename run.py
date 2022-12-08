@@ -80,27 +80,6 @@ class ParallelCorpus(Data.Dataset):
         return input_ids, torch.tensor(target, dtype=torch.long)
 
 
-class MBart(nn.Module):
-    def __init__(self, freeze_bert=False, model_name='microsoft/Multilingual-MiniLM-L12-H384'):
-        super(MBart, self).__init__()
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.model = AutoModel.from_pretrained(model_name, return_dict=True)
-        if freeze_bert:
-            for p in self.model.parameters():
-                p.requires_grad = False
-
-    def forward(self, input_ids, labels):
-        outputs = self.model(input_ids=input_ids, labels=labels)
-        return outputs.loss
-
-    def generate(self, input_ids, labels, decoder_start_token):
-        generated_tokens = self.bert.generate(input_ids, decoder_start_token_id=self.tokenizer.lang_code_to_id[
-            decoder_start_token])
-        generated_sentence = self.tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)
-        ground_truth_sentence = self.tokenizer.batch_decode(labels, skip_special_tokens=True)
-        return generated_sentence, ground_truth_sentence
-
-
 def train(model, optimizer, train_loader, dev_loader, epochs=1):
     logger.info('----Training----')
 
@@ -142,8 +121,8 @@ def train(model, optimizer, train_loader, dev_loader, epochs=1):
             inputs = {"input_ids": batch[0], "labels": batch[1]}
             outputs = model(**inputs)
             loss = outputs[0]
-            logger.info("step {}, training loss {}".format(i, loss.item()))
             loss = loss / accum_steps
+            logger.info("step {}, training loss {}".format(i, loss.item()))
 
             # apex
             if USE_AMP:
@@ -155,13 +134,14 @@ def train(model, optimizer, train_loader, dev_loader, epochs=1):
             if (i + 1) % accum_steps == 0 or (i + 1) == int(len(train_loader)):
                 optimizer.step()
                 lr_scheduler.step()
-                optimizer.zero_grad()
+                model.zero_grad()
 
                 if ((i - 1 and i % cfg['eval_step'] == 1) or (i + 1) == int(len(train_loader))) and cfg['local_rank'] == 0:
-                    dev_loss = eval(cur_step, model, dev_loader, lr_scheduler)
+                    dev_loss, dev_f1 = eval(cur_step, model, dev_loader, lr_scheduler)
                     metrics = dict()
                     metrics['train/loss'] = loss.item()
                     metrics['dev/loss'] = dev_loss
+                    metrics['dev/f1'] = dev_f1
                     # metrics['bleu'] = dev_bleu
                     wandb.log(metrics)
 
@@ -207,7 +187,7 @@ def eval(cur_step, model, val_dataloader, lr_scheduler=None):
 
     model.train()
     logger.info('step {}, validation loss: {}, f1 score: {}'.format(cur_step, eval_loss / eval_steps, val_f1))
-    return eval_loss / eval_steps
+    return eval_loss / eval_steps, val_f1
 
 def bleu_score(ref_list, hyp_list):
     references = [[ref.split()] for ref in ref_list]
