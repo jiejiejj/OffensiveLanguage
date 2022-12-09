@@ -268,7 +268,7 @@ if __name__ == '__main__':
     parser.add_argument('-t', '--type', default='train', type=str, required=False, help='train / eval / predict')
     args, unknown = parser.parse_known_args()
 
-    cfg = load_json(get_abs_path('config.json'))
+    cfg = load_json(get_abs_path(args.config))
     cfg['time_str'] = args.type + '_' + get_datetime()
     set_seeds(cfg['seeds'])
 
