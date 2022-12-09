@@ -9,12 +9,12 @@ label2id = {'OTHER': '0', 'OFFENSE': '1'}
 
 for b in base:
     with open(os.path.join(b, files[0]), 'r', encoding='utf8') as f:
-        lines = f.readlines()
+        lines = f.readlines()[:7000]
         random.shuffle(lines)
 
     with open(os.path.join(b, files[0]), 'w', encoding='utf8') as train:
         with open(os.path.join(b, files[2]), 'w', encoding='utf8') as dev:
-            index = int(len(lines) * 0.8)
+            index = int(len(lines) * 0.9)
             train.write(''.join(lines[:index]))
             dev.write(''.join(lines[index:]))
 

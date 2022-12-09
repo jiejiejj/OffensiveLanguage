@@ -21,6 +21,7 @@ from datetime import timedelta
 import wandb
 from nltk.translate.bleu_score import corpus_bleu
 from sklearn.metrics import f1_score
+from collections import defaultdict
 try:
     from apex import amp
     USE_AMP = False #True
@@ -28,7 +29,10 @@ except ImportError:
     USE_AMP = False
     print('Warning: Apex not installed.')
 
-
+lang2id = {'ar': 1, 'da': 2, 'de': 3, 'en': 4, 'tr': 5}
+id2lang = {}
+for k, v in lang2id.items():
+    id2lang[v] = k
 # transformers.logging.set_verbosity_error()
 
 # save model
@@ -59,7 +63,7 @@ class ParallelCorpus(Data.Dataset):
         for data_path in data_paths:
             with open(get_abs_path(data_path)) as f:
                 for line in f.readlines():
-                    data.append([line.split('\t')[0], int(line.split('\t')[1].strip())])
+                    data.append([line.split('\t')[0], int(line.split('\t')[1].strip()), lang2id[data_path[5:7]]])
             logger.info("Read {} pieces of samples".format(len(data)))
         return data
 
@@ -77,7 +81,7 @@ class ParallelCorpus(Data.Dataset):
                              return_tensors='pt')
         input_ids = batch['input_ids'].squeeze(0)
 
-        return input_ids, torch.tensor(target, dtype=torch.long)
+        return input_ids, torch.tensor(target, dtype=torch.long), torch.tensor(self.data[index][2], dtype=torch.int)
 
 
 def train(model, optimizer, train_loader, dev_loader, epochs=1):
@@ -121,8 +125,8 @@ def train(model, optimizer, train_loader, dev_loader, epochs=1):
             inputs = {"input_ids": batch[0], "labels": batch[1]}
             outputs = model(**inputs)
             loss = outputs[0]
-            loss = loss / accum_steps
             logger.info("step {}, training loss {}".format(i, loss.item()))
+            loss = loss / accum_steps
 
             # apex
             if USE_AMP:
@@ -141,8 +145,8 @@ def train(model, optimizer, train_loader, dev_loader, epochs=1):
                     metrics = dict()
                     metrics['train/loss'] = loss.item()
                     metrics['dev/loss'] = dev_loss
-                    metrics['dev/f1'] = dev_f1
-                    # metrics['bleu'] = dev_bleu
+                    for k, v in dev_f1.items():
+                        metrics['dev/{}_f1'.format(k)] = dev_f1[k]
                     wandb.log(metrics)
 
             if cfg['is_distributed']: torch.distributed.barrier()
@@ -161,6 +165,7 @@ def eval(cur_step, model, val_dataloader, lr_scheduler=None):
     model.to(device)
     model.eval()
     eval_loss, eval_steps, preds, out_label_ids = 0, 0, None, None
+    preds_dict, out_label_ids_dict = defaultdict(list), defaultdict(list)
     with torch.no_grad():
         for idx, data in enumerate(tqdm(val_dataloader)):
             eval_steps += 1
@@ -169,14 +174,26 @@ def eval(cur_step, model, val_dataloader, lr_scheduler=None):
             outputs = model(**inputs)
             loss, logits = outputs[:2]
             eval_loss += loss.item()
+            logits_np, out_label_id_np, langs_np = logits.detach().cpu().numpy(), \
+                                                   inputs["labels"].detach().cpu().numpy(), batch[2].detach().cpu().numpy()
             if preds is None:
-                preds = logits.detach().cpu().numpy()
-                out_label_ids = inputs["labels"].detach().cpu().numpy()
+                preds = logits_np
+                out_label_ids = out_label_id_np
             else:
-                preds = np.append(preds, logits.detach().cpu().numpy(), axis=0)
-                out_label_ids = np.append(out_label_ids, inputs["labels"].detach().cpu().numpy(), axis=0)
-    preds = np.argmax(preds, axis=1)
-    val_f1 = f1_score(preds, out_label_ids)
+                preds = np.append(preds, logits_np, axis=0)
+                out_label_ids = np.append(out_label_ids, out_label_id_np, axis=0)
+            for i in range(len(langs_np)):
+                preds_dict[langs_np[i]].append(logits_np[i])
+                out_label_ids_dict[langs_np[i]].append(out_label_id_np[i])
+    def get_f1(preds, out_label_ids):
+        preds = np.argmax(preds, axis=1)
+        val_f1 = f1_score(preds, out_label_ids)
+        return val_f1
+    val_f1 = get_f1(preds, out_label_ids)
+    f1_dict = {}
+    for lang, pred in preds_dict.items():
+        f1_dict[id2lang[lang]] = get_f1(pred, out_label_ids_dict[lang])
+    f1_dict['all'] = val_f1
     if lr_scheduler and val_f1 < cfg['best_f1']:
         cfg['best_f1'] = val_f1
         logger.info('Congrats!')
@@ -187,7 +204,8 @@ def eval(cur_step, model, val_dataloader, lr_scheduler=None):
 
     model.train()
     logger.info('step {}, validation loss: {}, f1 score: {}'.format(cur_step, eval_loss / eval_steps, val_f1))
-    return eval_loss / eval_steps, val_f1
+    logger.info('detail f1 score {}'.format(f1_dict))
+    return eval_loss / eval_steps, f1_dict,
 
 def bleu_score(ref_list, hyp_list):
     references = [[ref.split()] for ref in ref_list]
@@ -212,6 +230,7 @@ def predict(model, pred_dataloader):
 
 
 if __name__ == '__main__':
+
     parser = argparse.ArgumentParser(description='News Headline Generation')
     parser.add_argument('-c', '--config', default='config.json', type=str, required=False,
                         help='config file path')
