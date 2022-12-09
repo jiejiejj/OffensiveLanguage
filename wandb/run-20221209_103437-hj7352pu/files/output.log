@@ -1,0 +1,19 @@
+
+
+
+
+
+ 80%|████████  | 4/5 [00:26<00:07,  7.57s/it]
+
+ 80%|████████  | 4/5 [04:26<01:06, 66.67s/it]
+Traceback (most recent call last):
+  File "/Applications/PyCharm CE.app/Contents/plugins/python-ce/helpers/pydev/pydevd.py", line 1483, in _exec
+    pydev_imports.execfile(file, globals, locals)  # execute the script
+  File "/Applications/PyCharm CE.app/Contents/plugins/python-ce/helpers/pydev/_pydev_imps/_pydev_execfile.py", line 18, in execfile
+    exec(compile(contents+"\n", file, 'exec'), glob, loc)
+  File "/Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/run.py", line 288, in <module>
+    train(model, optimizer, train_loader, dev_loader, epochs=cfg['epoch_num'])
+  File "/Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/run.py", line 144, in train
+    dev_loss, dev_f1 = eval(cur_step, model, dev_loader, lr_scheduler)
+  File "/Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/run.py", line 195, in eval
+    f1_dict[id2lang[lang]] = get_f1(pred, out_label_ids_dict[lang])

@@ -1,0 +1,20 @@
+  0%|          | 0/12536 [00:04<?, ?it/s]
+Traceback (most recent call last):
+  File "/Applications/PyCharm CE.app/Contents/plugins/python-ce/helpers/pydev/pydevd.py", line 1483, in _exec
+    pydev_imports.execfile(file, globals, locals)  # execute the script
+  File "/Applications/PyCharm CE.app/Contents/plugins/python-ce/helpers/pydev/_pydev_imps/_pydev_execfile.py", line 18, in execfile
+    exec(compile(contents+"\n", file, 'exec'), glob, loc)
+  File "/Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/run.py", line 283, in <module>
+    train(model, optimizer, train_loader, dev_loader, epochs=cfg['epoch_num'])
+  File "/Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/run.py", line 151, in train
+    loss = model(**inputs)
+  File "/Users/taohuadao/opt/anaconda3/envs/daily/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1120, in _call_impl
+    result = forward_call(*input, **kwargs)
+  File "/Users/taohuadao/opt/anaconda3/envs/daily/lib/python3.8/site-packages/transformers/models/bert/modeling_bert.py", line 1592, in forward
+    loss = loss_fct(logits, labels)
+  File "/Users/taohuadao/opt/anaconda3/envs/daily/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1102, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/Users/taohuadao/opt/anaconda3/envs/daily/lib/python3.8/site-packages/torch/nn/modules/loss.py", line 704, in forward
+    return F.binary_cross_entropy_with_logits(input, target,
+  File "/Users/taohuadao/opt/anaconda3/envs/daily/lib/python3.8/site-packages/torch/nn/functional.py", line 2980, in binary_cross_entropy_with_logits
+    raise ValueError("Target size ({}) must be the same as input size ({})".format(target.size(), input.size()))

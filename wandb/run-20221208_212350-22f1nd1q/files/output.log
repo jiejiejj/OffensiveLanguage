@@ -1,0 +1,37 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  2%|▏         | 24/1516 [03:59<4:08:06,  9.98s/it]
+Traceback (most recent call last):
+  File "/Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/run.py", line 288, in <module>
+    train(model, optimizer, train_loader, dev_loader, epochs=cfg['epoch_num'])
+  File "/Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/run.py", line 161, in train
+    loss.backward()
+  File "/Users/taohuadao/opt/anaconda3/envs/daily/lib/python3.8/site-packages/torch/_tensor.py", line 307, in backward
+    torch.autograd.backward(self, gradient, retain_graph, create_graph, inputs=inputs)
+  File "/Users/taohuadao/opt/anaconda3/envs/daily/lib/python3.8/site-packages/torch/autograd/__init__.py", line 154, in backward
+    Variable._execution_engine.run_backward(
+  File "/Users/taohuadao/opt/anaconda3/envs/daily/lib/python3.8/site-packages/wandb/wandb_torch.py", line 282, in <lambda>
+    handle = var.register_hook(lambda grad: _callback(grad, log_track))

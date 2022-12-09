@@ -1,0 +1,5 @@
+
+  0%|          | 0/1516 [03:11<?, ?it/s]
+Traceback (most recent call last):
+  File "/Applications/PyCharm CE.app/Contents/plugins/python-ce/helpers/pydev/pydevd.py", line 1483, in _exec
+    pydev_imports.execfile(file, globals, locals)  # execute the script

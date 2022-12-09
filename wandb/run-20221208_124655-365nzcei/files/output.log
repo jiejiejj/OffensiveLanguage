@@ -1,0 +1,9 @@
+  0%|          | 0/12536 [00:00<?, ?it/s]
+Traceback (most recent call last):
+  File "run.py", line 283, in <module>
+    train(model, optimizer, train_loader, dev_loader, epochs=cfg['epoch_num'])
+  File "run.py", line 149, in train
+    batch = tuple(t.to(device) for t in data)
+  File "run.py", line 149, in <genexpr>
+    batch = tuple(t.to(device) for t in data)
+AttributeError: 'tuple' object has no attribute 'to'

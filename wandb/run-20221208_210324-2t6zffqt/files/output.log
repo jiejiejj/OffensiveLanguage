@@ -1,0 +1,17 @@
+  0%|          | 0/1516 [00:06<?, ?it/s]
+Traceback (most recent call last):
+  File "/Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/run.py", line 283, in <module>
+    train(model, optimizer, train_loader, dev_loader, epochs=cfg['epoch_num'])
+  File "/Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/run.py", line 151, in train
+    loss = model(**inputs)
+  File "/Users/taohuadao/opt/anaconda3/envs/daily/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1120, in _call_impl
+    result = forward_call(*input, **kwargs)
+  File "/Users/taohuadao/opt/anaconda3/envs/daily/lib/python3.8/site-packages/transformers/models/bert/modeling_bert.py", line 1589, in forward
+    loss = loss_fct(logits.view(-1, self.num_labels), labels.view(-1))
+  File "/Users/taohuadao/opt/anaconda3/envs/daily/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1102, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/Users/taohuadao/opt/anaconda3/envs/daily/lib/python3.8/site-packages/torch/nn/modules/loss.py", line 1150, in forward
+    return F.cross_entropy(input, target, weight=self.weight,
+  File "/Users/taohuadao/opt/anaconda3/envs/daily/lib/python3.8/site-packages/torch/nn/functional.py", line 2846, in cross_entropy
+    return torch._C._nn.cross_entropy_loss(input, target, weight, _Reduction.get_enum(reduction), ignore_index, label_smoothing)
+RuntimeError: expected scalar type Long but found Int

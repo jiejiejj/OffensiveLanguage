@@ -1,0 +1,12 @@
+  0%|          | 0/44 [00:00<?, ?it/s]
+Traceback (most recent call last):
+  File "/Applications/PyCharm CE.app/Contents/plugins/python-ce/helpers/pydev/pydevd.py", line 1483, in _exec
+    pydev_imports.execfile(file, globals, locals)  # execute the script
+  File "/Applications/PyCharm CE.app/Contents/plugins/python-ce/helpers/pydev/_pydev_imps/_pydev_execfile.py", line 18, in execfile
+    exec(compile(contents+"\n", file, 'exec'), glob, loc)
+  File "/Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/run.py", line 284, in <module>
+    train(model, optimizer, train_loader, dev_loader, epochs=cfg['epoch_num'])
+  File "/Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/run.py", line 121, in train
+    batch = tuple(t.to(device) for t in data)
+  File "/Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/run.py", line 121, in <genexpr>
+    batch = tuple(t.to(device) for t in data)

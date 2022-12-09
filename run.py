@@ -19,8 +19,6 @@ from utils import *
 import argparse
 from datetime import timedelta
 import wandb
-from nltk.translate.bleu_score import corpus_bleu
-from sklearn.metrics import f1_score
 from collections import defaultdict
 try:
     from apex import amp
@@ -146,7 +144,7 @@ def train(model, optimizer, train_loader, dev_loader, epochs=1):
                     metrics['train/loss'] = loss.item()
                     metrics['dev/loss'] = dev_loss
                     for k, v in dev_f1.items():
-                        metrics['dev/{}_f1'.format(k)] = dev_f1[k]
+                        metrics[k] = v
                     wandb.log(metrics)
 
             if cfg['is_distributed']: torch.distributed.barrier()
@@ -157,6 +155,13 @@ def train(model, optimizer, train_loader, dev_loader, epochs=1):
 
     if cfg['local_rank'] == 0:
         wandb.finish()
+
+
+def get_metrics(preds, out_label_ids):
+    preds = np.argmax(preds, axis=1)
+    val_precision, val_recall, val_f1, _ = precision_recall_fscore_support(preds, out_label_ids)
+    val_acu = accuracy_score(preds, out_label_ids)
+    return val_precision, val_recall, val_f1, val_acu
 
 
 def eval(cur_step, model, val_dataloader, lr_scheduler=None):
@@ -185,15 +190,20 @@ def eval(cur_step, model, val_dataloader, lr_scheduler=None):
             for i in range(len(langs_np)):
                 preds_dict[langs_np[i]].append(logits_np[i])
                 out_label_ids_dict[langs_np[i]].append(out_label_id_np[i])
-    def get_f1(preds, out_label_ids):
-        preds = np.argmax(preds, axis=1)
-        val_f1 = f1_score(preds, out_label_ids)
-        return val_f1
-    val_f1 = get_f1(preds, out_label_ids)
+
+    val_precision, val_recall, val_f1, val_acu = get_metrics(preds, out_label_ids)
     f1_dict = {}
     for lang, pred in preds_dict.items():
-        f1_dict[id2lang[lang]] = get_f1(pred, out_label_ids_dict[lang])
-    f1_dict['all'] = val_f1
+        precision, recall, f1, acu = get_metrics(pred, out_label_ids_dict[lang])
+        f1_dict[id2lang[lang]+'/f1'] = f1
+        f1_dict[id2lang[lang] + '/precision'] = precision
+        f1_dict[id2lang[lang] + '/recall'] = recall
+        f1_dict[id2lang[lang] + '/accuracy'] = acu
+
+    f1_dict['all/f1'] = val_f1
+    f1_dict['all/precision'] = val_precision
+    f1_dict['all/recall'] = val_recall
+    f1_dict['all/accuracy'] = val_acu
     if lr_scheduler and val_f1 < cfg['best_f1']:
         cfg['best_f1'] = val_f1
         logger.info('Congrats!')
@@ -205,27 +215,48 @@ def eval(cur_step, model, val_dataloader, lr_scheduler=None):
     model.train()
     logger.info('step {}, validation loss: {}, f1 score: {}'.format(cur_step, eval_loss / eval_steps, val_f1))
     logger.info('detail f1 score {}'.format(f1_dict))
-    return eval_loss / eval_steps, f1_dict,
+    return eval_loss / eval_steps, f1_dict
 
-def bleu_score(ref_list, hyp_list):
-    references = [[ref.split()] for ref in ref_list]
-    hypotheses = [hpy.split() for hpy in hyp_list]
-    return corpus_bleu(references, hypotheses)
 
 def predict(model, pred_dataloader):
     device = torch.device("cuda", cfg['local_rank']) if torch.cuda.is_available() else torch.device("cpu")
     model.to(device)
     model.eval()
-    predicts, references = [], []
+    preds_dict, out_label_ids_dict = defaultdict(list), defaultdict(list)
     with torch.no_grad():
-        for idx, batch in enumerate(tqdm(pred_dataloader)):
-            batch = tuple(t.to(device) for t in batch)
-            generated_sentence, ground_truth_sentence = model.generate(batch[0], batch[1], 'en_XX')
-            references.extend(ground_truth_sentence)
-            predicts.extend(generated_sentence)
-    bleu = bleu_score(references, predicts)
-    logger.info("Corpus BLEU score: {}".format(bleu))
-    return predicts, references
+        for idx, data in enumerate(tqdm(pred_dataloader)):
+            batch = tuple(t.to(device) for t in data)
+            inputs = {"input_ids": batch[0], "labels": batch[1]}
+            outputs = model(**inputs)
+            loss, logits = outputs[:2]
+            logits_np, out_label_id_np, langs_np = logits.detach().cpu().numpy(), \
+                                                   inputs["labels"].detach().cpu().numpy(), batch[
+                                                       2].detach().cpu().numpy()
+            if preds is None:
+                preds = logits_np
+                out_label_ids = out_label_id_np
+            else:
+                preds = np.append(preds, logits_np, axis=0)
+                out_label_ids = np.append(out_label_ids, out_label_id_np, axis=0)
+            for i in range(len(langs_np)):
+                preds_dict[langs_np[i]].append(logits_np[i])
+                out_label_ids_dict[langs_np[i]].append(out_label_id_np[i])
+
+        val_precision, val_recall, val_f1, val_acu = get_metrics(preds, out_label_ids)
+        f1_dict = {}
+        for lang, pred in preds_dict.items():
+            precision, recall, f1, acu = get_metrics(pred, out_label_ids_dict[lang])
+            f1_dict[id2lang[lang] + '/f1'] = f1
+            f1_dict[id2lang[lang] + '/precision'] = precision
+            f1_dict[id2lang[lang] + '/recall'] = recall
+            f1_dict[id2lang[lang] + '/accuracy'] = acu
+
+        f1_dict['all/f1'] = val_f1
+        f1_dict['all/precision'] = val_precision
+        f1_dict['all/recall'] = val_recall
+        f1_dict['all/accuracy'] = val_acu
+    logger.info("Corpus metrics score: {}".format(f1_dict))
+    return preds, out_label_ids
 
 
 

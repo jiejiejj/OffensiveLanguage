@@ -1,0 +1,19 @@
+
+  0%|          | 0/12536 [01:10<?, ?it/s]
+Traceback (most recent call last):
+  File "/Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/run.py", line 283, in <module>
+    train(model, optimizer, train_loader, dev_loader, epochs=cfg['epoch_num'])
+  File "/Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/run.py", line 148, in train
+    for i, data in enumerate(tqdm(train_loader)):
+  File "/Users/taohuadao/opt/anaconda3/envs/daily/lib/python3.8/site-packages/tqdm/std.py", line 1195, in __iter__
+    for obj in iterable:
+  File "/Users/taohuadao/opt/anaconda3/envs/daily/lib/python3.8/site-packages/torch/utils/data/dataloader.py", line 521, in __next__
+    data = self._next_data()
+  File "/Users/taohuadao/opt/anaconda3/envs/daily/lib/python3.8/site-packages/torch/utils/data/dataloader.py", line 561, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+  File "/Users/taohuadao/opt/anaconda3/envs/daily/lib/python3.8/site-packages/torch/utils/data/_utils/fetch.py", line 49, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/Users/taohuadao/opt/anaconda3/envs/daily/lib/python3.8/site-packages/torch/utils/data/_utils/fetch.py", line 49, in <listcomp>
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/run.py", line 80, in __getitem__
+    return input_ids, torch.tensor(target, dtype=torch.int8)

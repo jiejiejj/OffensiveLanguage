@@ -1,0 +1,42 @@
+{
+    "os": "macOS-10.16-x86_64-i386-64bit",
+    "python": "3.8.12",
+    "heartbeatAt": "2022-12-08T19:36:50.534508",
+    "startedAt": "2022-12-08T19:36:49.055159",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "/Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/run.py",
+    "codePath": "run.py",
+    "git": {
+        "remote": "git@github.com:jiejiejj/OffensiveLanguage.git",
+        "commit": "3aac98dc7364ca227de17332b8065134f9e539b1"
+    },
+    "email": "is.jiehuang@gmail.com",
+    "root": "/Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage",
+    "host": "taohuadao",
+    "username": "taohuadao",
+    "executable": "/Users/taohuadao/opt/anaconda3/envs/daily/bin/python3.8",
+    "cpu_count": 2,
+    "cpu_count_logical": 4,
+    "cpu_freq": {
+        "current": 1600,
+        "min": 1600,
+        "max": 1600
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 1600,
+            "min": 1600,
+            "max": 1600
+        }
+    ],
+    "disk": {
+        "total": 112.80464935302734,
+        "used": 14.297748565673828
+    },
+    "memory": {
+        "total": 4.0
+    }
+}

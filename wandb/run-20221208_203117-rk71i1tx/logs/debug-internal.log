@@ -1,0 +1,86 @@
+2022-12-08 20:31:17,109 INFO    StreamThr :26748 [internal.py:wandb_internal():87] W&B internal server running at pid: 26748, started at: 2022-12-08 20:31:17.104800
+2022-12-08 20:31:17,155 DEBUG   HandlerThread:26748 [handler.py:handle_request():139] handle_request: status
+2022-12-08 20:31:17,156 DEBUG   SenderThread:26748 [sender.py:send_request():317] send_request: status
+2022-12-08 20:31:17,160 DEBUG   SenderThread:26748 [sender.py:send():303] send: header
+2022-12-08 20:31:17,160 INFO    WriterThread:26748 [datastore.py:open_for_write():75] open: /Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/wandb/run-20221208_203117-rk71i1tx/run-rk71i1tx.wandb
+2022-12-08 20:31:17,161 DEBUG   SenderThread:26748 [sender.py:send():303] send: run
+2022-12-08 20:31:17,960 DEBUG   HandlerThread:26748 [handler.py:handle_request():139] handle_request: check_version
+2022-12-08 20:31:17,996 INFO    SenderThread:26748 [dir_watcher.py:__init__():216] watching files in: /Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/wandb/run-20221208_203117-rk71i1tx/files
+2022-12-08 20:31:17,997 INFO    SenderThread:26748 [sender.py:_start_run_threads():928] run started: rk71i1tx with start time 1670527877.07325
+2022-12-08 20:31:17,997 DEBUG   SenderThread:26748 [sender.py:send():303] send: summary
+2022-12-08 20:31:17,998 INFO    SenderThread:26748 [sender.py:_save_file():1171] saving file wandb-summary.json with policy end
+2022-12-08 20:31:17,999 DEBUG   SenderThread:26748 [sender.py:send_request():317] send_request: check_version
+2022-12-08 20:31:18,297 DEBUG   HandlerThread:26748 [handler.py:handle_request():139] handle_request: run_start
+2022-12-08 20:31:18,301 DEBUG   HandlerThread:26748 [system_info.py:__init__():31] System info init
+2022-12-08 20:31:18,301 DEBUG   HandlerThread:26748 [system_info.py:__init__():46] System info init done
+2022-12-08 20:31:18,301 INFO    HandlerThread:26748 [system_monitor.py:start():150] Starting system monitor
+2022-12-08 20:31:18,302 INFO    SystemMonitor:26748 [system_monitor.py:_start():116] Starting system asset monitoring threads
+2022-12-08 20:31:18,302 INFO    HandlerThread:26748 [system_monitor.py:probe():171] Collecting system info
+2022-12-08 20:31:18,304 INFO    SystemMonitor:26748 [interfaces.py:start():168] Started cpu
+2022-12-08 20:31:18,305 DEBUG   HandlerThread:26748 [system_info.py:probe():195] Probing system
+2022-12-08 20:31:18,305 INFO    SystemMonitor:26748 [interfaces.py:start():168] Started disk
+2022-12-08 20:31:18,307 INFO    SystemMonitor:26748 [interfaces.py:start():168] Started memory
+2022-12-08 20:31:18,309 INFO    SystemMonitor:26748 [interfaces.py:start():168] Started network
+2022-12-08 20:31:18,323 DEBUG   HandlerThread:26748 [system_info.py:_probe_git():180] Probing git
+2022-12-08 20:31:18,357 DEBUG   HandlerThread:26748 [system_info.py:_probe_git():188] Probing git done
+2022-12-08 20:31:18,358 DEBUG   HandlerThread:26748 [system_info.py:probe():241] Probing system done
+2022-12-08 20:31:18,358 DEBUG   HandlerThread:26748 [system_monitor.py:probe():180] {'os': 'macOS-10.16-x86_64-i386-64bit', 'python': '3.8.12', 'heartbeatAt': '2022-12-08T19:31:18.305790', 'startedAt': '2022-12-08T19:31:17.043868', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': '/Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/run.py', 'codePath': 'run.py', 'git': {'remote': 'git@github.com:jiejiejj/OffensiveLanguage.git', 'commit': '3aac98dc7364ca227de17332b8065134f9e539b1'}, 'email': 'is.jiehuang@gmail.com', 'root': '/Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage', 'host': 'taohuadao', 'username': 'taohuadao', 'executable': '/Users/taohuadao/opt/anaconda3/envs/daily/bin/python3.8', 'cpu_count': 2, 'cpu_count_logical': 4, 'cpu_freq': {'current': 1600, 'min': 1600, 'max': 1600}, 'cpu_freq_per_core': [{'current': 1600, 'min': 1600, 'max': 1600}], 'disk': {'total': 112.80464935302734, 'used': 14.297748565673828}, 'memory': {'total': 4.0}}
+2022-12-08 20:31:18,358 INFO    HandlerThread:26748 [system_monitor.py:probe():181] Finished collecting system info
+2022-12-08 20:31:18,358 INFO    HandlerThread:26748 [system_monitor.py:probe():184] Publishing system info
+2022-12-08 20:31:18,359 DEBUG   HandlerThread:26748 [system_info.py:_save_pip():51] Saving list of pip packages installed into the current environment
+2022-12-08 20:31:18,360 DEBUG   HandlerThread:26748 [system_info.py:_save_pip():67] Saving pip packages done
+2022-12-08 20:31:18,361 DEBUG   HandlerThread:26748 [system_info.py:_save_conda():74] Saving list of conda packages installed into the current environment
+2022-12-08 20:31:19,012 INFO    Thread-19 :26748 [dir_watcher.py:_on_file_created():275] file/dir created: /Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/wandb/run-20221208_203117-rk71i1tx/files/conda-environment.yaml
+2022-12-08 20:31:19,013 INFO    Thread-19 :26748 [dir_watcher.py:_on_file_created():275] file/dir created: /Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/wandb/run-20221208_203117-rk71i1tx/files/requirements.txt
+2022-12-08 20:31:19,014 INFO    Thread-19 :26748 [dir_watcher.py:_on_file_created():275] file/dir created: /Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/wandb/run-20221208_203117-rk71i1tx/files/wandb-summary.json
+2022-12-08 20:31:29,463 DEBUG   HandlerThread:26748 [system_info.py:_save_conda():86] Saving conda packages done
+2022-12-08 20:31:29,468 INFO    HandlerThread:26748 [system_monitor.py:probe():186] Finished publishing system info
+2022-12-08 20:31:29,485 DEBUG   HandlerThread:26748 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-08 20:31:29,486 DEBUG   SenderThread:26748 [sender.py:send_request():317] send_request: stop_status
+2022-12-08 20:31:29,797 DEBUG   SenderThread:26748 [sender.py:send():303] send: telemetry
+2022-12-08 20:31:29,798 DEBUG   SenderThread:26748 [sender.py:send():303] send: telemetry
+2022-12-08 20:31:29,803 DEBUG   SenderThread:26748 [sender.py:send():303] send: files
+2022-12-08 20:31:29,804 INFO    SenderThread:26748 [sender.py:_save_file():1171] saving file wandb-metadata.json with policy now
+2022-12-08 20:31:30,034 INFO    Thread-19 :26748 [dir_watcher.py:_on_file_modified():292] file/dir modified: /Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/wandb/run-20221208_203117-rk71i1tx/files/conda-environment.yaml
+2022-12-08 20:31:30,034 INFO    Thread-19 :26748 [dir_watcher.py:_on_file_created():275] file/dir created: /Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/wandb/run-20221208_203117-rk71i1tx/files/wandb-metadata.json
+2022-12-08 20:31:30,035 INFO    Thread-19 :26748 [dir_watcher.py:_on_file_created():275] file/dir created: /Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/wandb/run-20221208_203117-rk71i1tx/files/output.log
+2022-12-08 20:31:30,670 INFO    Thread-22 :26748 [upload_job.py:push():143] Uploaded file /var/folders/f7/_5pz8dhj69z82qchj0w82tgw0000gn/T/tmpfnpoj_ibwandb/328vmzkw-wandb-metadata.json
+2022-12-08 20:31:32,043 INFO    Thread-19 :26748 [dir_watcher.py:_on_file_modified():292] file/dir modified: /Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/wandb/run-20221208_203117-rk71i1tx/files/output.log
+2022-12-08 20:31:43,329 DEBUG   HandlerThread:26748 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-08 20:31:43,330 DEBUG   SenderThread:26748 [sender.py:send_request():317] send_request: stop_status
+2022-12-08 20:31:49,093 INFO    Thread-19 :26748 [dir_watcher.py:_on_file_modified():292] file/dir modified: /Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/wandb/run-20221208_203117-rk71i1tx/files/config.yaml
+2022-12-08 20:31:58,886 DEBUG   HandlerThread:26748 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-08 20:31:58,888 DEBUG   SenderThread:26748 [sender.py:send_request():317] send_request: stop_status
+2022-12-08 20:32:14,196 DEBUG   HandlerThread:26748 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-08 20:32:14,199 DEBUG   SenderThread:26748 [sender.py:send_request():317] send_request: stop_status
+2022-12-08 20:32:18,310 DEBUG   SystemMonitor:26748 [system_monitor.py:_start():130] Starting system metrics aggregation loop
+2022-12-08 20:32:18,314 DEBUG   SenderThread:26748 [sender.py:send():303] send: stats
+2022-12-08 20:32:29,490 DEBUG   HandlerThread:26748 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-08 20:32:29,491 DEBUG   SenderThread:26748 [sender.py:send_request():317] send_request: stop_status
+2022-12-08 20:32:44,910 DEBUG   HandlerThread:26748 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-08 20:32:44,913 DEBUG   SenderThread:26748 [sender.py:send_request():317] send_request: stop_status
+2022-12-08 20:32:48,334 DEBUG   SenderThread:26748 [sender.py:send():303] send: stats
+2022-12-08 20:33:00,325 DEBUG   HandlerThread:26748 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-08 20:33:00,335 DEBUG   SenderThread:26748 [sender.py:send_request():317] send_request: stop_status
+2022-12-08 20:33:18,349 DEBUG   SenderThread:26748 [sender.py:send():303] send: stats
+2022-12-08 20:33:20,213 DEBUG   HandlerThread:26748 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-08 20:33:20,214 DEBUG   SenderThread:26748 [sender.py:send_request():317] send_request: stop_status
+2022-12-08 20:33:35,663 DEBUG   HandlerThread:26748 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-08 20:33:35,665 DEBUG   SenderThread:26748 [sender.py:send_request():317] send_request: stop_status
+2022-12-08 20:33:48,361 DEBUG   SenderThread:26748 [sender.py:send():303] send: stats
+2022-12-08 20:33:50,980 DEBUG   HandlerThread:26748 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-08 20:33:50,980 DEBUG   SenderThread:26748 [sender.py:send_request():317] send_request: stop_status
+2022-12-08 20:34:06,312 DEBUG   HandlerThread:26748 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-08 20:34:06,320 DEBUG   SenderThread:26748 [sender.py:send_request():317] send_request: stop_status
+2022-12-08 20:34:18,369 DEBUG   SenderThread:26748 [sender.py:send():303] send: stats
+2022-12-08 20:34:22,298 DEBUG   HandlerThread:26748 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-08 20:34:22,302 DEBUG   SenderThread:26748 [sender.py:send_request():317] send_request: stop_status
+2022-12-08 20:34:42,311 DEBUG   HandlerThread:26748 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-08 20:34:42,318 DEBUG   SenderThread:26748 [sender.py:send_request():317] send_request: stop_status
+2022-12-08 20:34:48,374 DEBUG   SenderThread:26748 [sender.py:send():303] send: stats
+2022-12-08 20:34:57,924 DEBUG   HandlerThread:26748 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-08 20:34:57,932 DEBUG   SenderThread:26748 [sender.py:send_request():317] send_request: stop_status
+2022-12-08 20:35:13,537 DEBUG   HandlerThread:26748 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-08 20:35:13,538 DEBUG   SenderThread:26748 [sender.py:send_request():317] send_request: stop_status
+2022-12-08 20:35:16,238 INFO    Thread-19 :26748 [dir_watcher.py:_on_file_modified():292] file/dir modified: /Users/taohuadao/Downloads/UU/semester3/R&D/OffensiveLanguage/wandb/run-20221208_203117-rk71i1tx/files/output.log
+2022-12-08 20:35:18,378 DEBUG   SenderThread:26748 [sender.py:send():303] send: stats
