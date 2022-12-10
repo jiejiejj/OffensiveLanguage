@@ -207,10 +207,10 @@ def eval(cur_step, model, val_dataloader, lr_scheduler=None):
     if lr_scheduler and val_f1 < cfg['best_f1']:
         cfg['best_f1'] = val_f1
         logger.info('Congrats!')
-        ckpt_list.append(get_ckpt_path(cfg).format(cur_step))
-        if len(ckpt_list) > cfg['max_ckpt']:
-            os.remove(ckpt_list.pop(0))
-        save_model(cfg, logger, cur_step, model, optimizer, lr_scheduler)
+        # ckpt_list.append(get_ckpt_path(cfg).format(cur_step))
+        # if len(ckpt_list) > cfg['max_ckpt']:
+        #     os.remove(ckpt_list.pop(0))
+        # save_model(cfg, logger, cur_step, model, optimizer, lr_scheduler)
 
     model.train()
     logger.info('step {}, validation loss: {}, f1 score: {}'.format(cur_step, eval_loss / eval_steps, val_f1))
