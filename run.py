@@ -27,7 +27,7 @@ except ImportError:
     USE_AMP = False
     print('Warning: Apex not installed.')
 
-lang2id = {'ar': 1, 'da': 2, 'de': 3, 'en': 4, 'tr': 5}
+lang2id = {'ar': 1, 'da': 2, 'de': 3, 'en': 4, 'tr': 5, 'gr': 6}
 id2lang = {}
 for k, v in lang2id.items():
     id2lang[v] = k
