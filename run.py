@@ -159,7 +159,7 @@ def train(model, optimizer, train_loader, dev_loader, epochs=1):
 
 def get_metrics(preds, out_label_ids):
     preds = np.argmax(preds, axis=1)
-    val_precision, val_recall, val_f1, _ = precision_recall_fscore_support(preds, out_label_ids)
+    val_precision, val_recall, val_f1, _ = precision_recall_fscore_support(preds, out_label_ids, average='binary')
     val_acu = accuracy_score(preds, out_label_ids)
     return val_precision, val_recall, val_f1, val_acu
 
