@@ -222,6 +222,7 @@ def predict(model, pred_dataloader):
     device = torch.device("cuda", cfg['local_rank']) if torch.cuda.is_available() else torch.device("cpu")
     model.to(device)
     model.eval()
+    preds, out_label_ids = None, None
     preds_dict, out_label_ids_dict = defaultdict(list), defaultdict(list)
     with torch.no_grad():
         for idx, data in enumerate(tqdm(pred_dataloader)):
