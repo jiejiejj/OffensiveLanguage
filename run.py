@@ -299,9 +299,9 @@ if __name__ == '__main__':
     if os.path.exists(cfg['output_model']):
         logger.info('Loading model...')
         checkpoint = torch.load(cfg['output_model'], map_location='cpu')
-        model.load_state_dict(checkpoint['model_state_dict'])
+        model.load_state_dict(checkpoint['model'])
         model.to(device)
-        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+        optimizer.load_state_dict(checkpoint['optimizer'])
     else:
         model.to(device)
 
